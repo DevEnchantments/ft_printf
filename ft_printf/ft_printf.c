@@ -6,11 +6,35 @@
 /*   By: faresms <faresms@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 02:33:21 by faresms           #+#    #+#             */
-/*   Updated: 2025/03/01 08:14:58 by faresms          ###   ########.fr       */
+/*   Updated: 2025/04/06 18:07:27 by faresms          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	format_converter(char str, va_list ap)
+{
+	int	printed_chars;
+
+	printed_chars = 0;
+	if (str == 'c')
+		printed_chars += ft_putchar(va_arg(ap, int));
+	else if (str == 's')
+		printed_chars += ft_putstr(va_arg(ap, char *));
+	else if (str == 'd' || str == 'i')
+		printed_chars += ft_putnbr(va_arg(ap, int));
+	else if (str == 'u')
+		printed_chars += ft_putunsigned((unsigned int)
+				va_arg(ap, unsigned int));
+	else if (str == 'x' || str == 'X')
+		printed_chars += ft_puthex((unsigned int)
+				va_arg(ap, unsigned long), str);
+	else if (str == 'p')
+		printed_chars += ft_putptr(va_arg(ap, void *));
+	else if (str == '%')
+		printed_chars += ft_putchar('%');
+	return (printed_chars);
+}
 
 int	ft_printf(char const *str, ...)
 {
@@ -26,21 +50,7 @@ int	ft_printf(char const *str, ...)
 		if (str[i] == '%' && str[i + 1])
 		{
 			i++;
-			if (str[i] == 'c')
-				printed_chars += ft_putchar(va_arg(ap, int));
-			else if (str[i] == 's')
-				printed_chars += ft_putstr(va_arg(ap, char *));
-			else if (str[i] == 'd' || str[i] == 'i')
-				printed_chars += ft_putnbr(va_arg(ap, int));
-			else if (str[i] == 'u')
-				printed_chars += ft_putunsigned((unsigned int)
-						va_arg(ap, unsigned int));
-			else if (str[i] == 'x' || str[i] == 'X')
-				printed_chars += ft_puthex((unsigned int)va_arg(ap, unsigned long), str[i]);
-			else if (str[i] == 'p')
-				printed_chars += ft_putptr(va_arg(ap, void *));
-			else if (str[i] == '%')
-				printed_chars += ft_putchar('%');
+			printed_chars += format_converter(str[i], ap);
 		}
 		else
 			printed_chars += ft_putchar(str[i]);
@@ -52,6 +62,23 @@ int	ft_printf(char const *str, ...)
 
 // int	main(void)
 // {
-// 	printf("%p\n", ((void*)0));
-// 	ft_printf("%p\n", ((void*)0));
+// 	char	c;
+// 	char	*str;
+// 	void	*ptr;
+// 	int		i;
+// 	int		d;
+// 	unsigned int u;
+// 	int		hex;
+
+// 	str = "Fares";
+// 	c = 'F';
+// 	ptr = (void *)0x1234abcd;
+// 	i = -2147483648;
+// 	d = 2147483647;
+// 	u = 4294967295;
+// 	hex = 3735928559;
+// 	printf("PRINTF   : [%c] [%s] [%p] [%d] [%i] [%u] [%x] [%X] [%%]\n",
+// 		c, str, ptr, d, i, u, hex, hex);
+// 	ft_printf("FT_PRINTF: [%c] [%s] [%p] [%d] [%i] [%u] [%x] [%X] [%%]\n",
+// 		c, str, ptr, d, i, u, hex, hex);
 // }
