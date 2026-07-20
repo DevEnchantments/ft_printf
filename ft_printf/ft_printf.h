@@ -6,7 +6,7 @@
 /*   By: faresms <faresms@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 02:29:26 by faresms           #+#    #+#             */
-/*   Updated: 2025/03/01 08:01:37 by faresms          ###   ########.fr       */
+/*   Updated: 2025/04/06 17:58:25 by faresms          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits.h>
 
 int	ft_printf(char const *str, ...);
+int	format_converter(char str, va_list ap);
 int	ft_putnbr(int n);
 int	ft_putstr(char *s);
 int	ft_putchar(char c);
